@@ -1,4 +1,3 @@
-// Данные статей по категориям
 const articlesData = {
     yk: [
         {
@@ -220,7 +219,6 @@ const articlesData = {
     ]
 };
 
-// Глобальные переменные
 let currentCategory = 'yk';
 let currentSearchQuery = '';
 
@@ -248,7 +246,6 @@ function createStars() {
     }
 }
 
-// Выполнение поиска по всем категориям
 function performSearch() {
     const searchInput = document.getElementById('search-input');
     const query = searchInput.value.trim().toLowerCase();
@@ -262,7 +259,6 @@ function performSearch() {
     loadAllArticles(query);
 }
 
-// Очистка результатов поиска
 function clearSearchResults() {
     const searchInput = document.getElementById('search-input');
     searchInput.value = '';
@@ -270,12 +266,10 @@ function clearSearchResults() {
     loadArticles(currentCategory);
 }
 
-// Загрузка всех статей из всех категорий для поиска
 function loadAllArticles(searchQuery = '') {
     const articlesContainer = document.getElementById('articles-container');
     let allArticles = [];
     
-    // Собираем все статьи из всех категорий
     Object.keys(articlesData).forEach(category => {
         const categoryArticles = articlesData[category];
         categoryArticles.forEach(article => {
@@ -286,7 +280,6 @@ function loadAllArticles(searchQuery = '') {
         });
     });
     
-    // Фильтрация по поисковому запросу
     if (searchQuery) {
         allArticles = allArticles.filter(article => {
             if (article.title) {
@@ -316,32 +309,25 @@ function loadAllArticles(searchQuery = '') {
         const articleElement = createArticleElement(article, searchQuery);
         articlesContainer.appendChild(articleElement);
         
-        // Автоматически открываем описание если поиск был по описанию
         if (searchQuery && article.description && article.description.toLowerCase().includes(searchQuery)) {
             articleElement.classList.add('active');
         }
     });
 }
 
-// Создание элемента статьи
-// Создание элемента статьи
 function createArticleElement(article, searchQuery = '') {
     const articleElement = document.createElement('div');
     articleElement.className = 'article-item';
     articleElement.setAttribute('data-id', article.id);
     
-    // Автоматически скрываем время если его нет
     if (!article.time) {
         articleElement.classList.add('no-time');
     }
     
-    // Проверяем длину описания для добавления прокрутки
     const isLongDescription = article.description && article.description.length > 200;
     const descriptionClass = isLongDescription ? 'article-description-window scrollable' : 'article-description-window';
     
-    // Для категорий с обычными статьями (yk, pc)
     if (article.title) {
-        // Подсветка совпадений в названии
         let highlightedTitle = article.title;
         if (searchQuery) {
             const regex = new RegExp(`(${searchQuery})`, 'gi');
@@ -362,28 +348,23 @@ function createArticleElement(article, searchQuery = '') {
             </div>
         `;
         
-        // Подсветка совпадений в описании
         if (searchQuery && article.description) {
             const regex = new RegExp(`(${searchQuery})`, 'gi');
             const highlightedDescription = article.description.replace(regex, '<mark>$1</mark>');
             articleElement.querySelector('.article-description').innerHTML = highlightedDescription;
         }
         
-        // Обработчик для открытия/закрытия описания по ЛКМ
         const titleWindow = articleElement.querySelector('.article-title-window');
         titleWindow.addEventListener('click', function(e) {
-            // Закрываем все остальные описания
             document.querySelectorAll('.article-item.active').forEach(item => {
                 if (item !== articleElement) {
                     item.classList.remove('active');
                 }
             });
             
-            // Открываем/закрываем текущее описание
             articleElement.classList.toggle('active');
         });
     } 
-    // Для категорий с простым текстом (xz, advokat, macros, information)
     else if (article.content) {
         let highlightedContent = article.content;
         if (searchQuery) {
@@ -400,14 +381,12 @@ function createArticleElement(article, searchQuery = '') {
             </div>
         `;
         
-        // Для текстовых статей сразу показываем содержимое
         articleElement.classList.add('text-content');
     }
     
     return articleElement;
 }
 
-// Загрузка статей для конкретной категории
 function loadArticles(category, searchQuery = '') {
     const articlesContainer = document.getElementById('articles-container');
     const articles = articlesData[category] || [];
@@ -431,45 +410,36 @@ function loadArticles(category, searchQuery = '') {
     });
 }
 
-// Инициализация кнопок категорий
 function initCategoryButtons() {
     const categoryButtons = document.querySelectorAll('.category-btn');
     
     categoryButtons.forEach(button => {
         button.addEventListener('click', function() {
-            // Убираем активный класс у всех кнопок
             categoryButtons.forEach(btn => btn.classList.remove('active'));
             
-            // Добавляем активный класс текущей кнопке
             this.classList.add('active');
             
-            // Обновляем текущую категорию
             currentCategory = this.getAttribute('data-category');
             
-            // Если есть поисковый запрос, ищем по всем категориям
             if (currentSearchQuery) {
                 loadAllArticles(currentSearchQuery);
             } else {
-                // Иначе загружаем статьи выбранной категории
                 loadArticles(currentCategory);
             }
         });
     });
 }
 
-// Инициализация при загрузке страницы
 document.addEventListener('DOMContentLoaded', function() {
     createStars();
     initCategoryButtons();
 
-    // Загружаем статьи для первой категории
     const firstCategory = document.querySelector('.category-btn.active');
     if (firstCategory) {
         currentCategory = firstCategory.getAttribute('data-category');
         loadArticles(currentCategory);
     }
     
-    // Обработчики для поиска
     const searchInput = document.getElementById('search-input');
     const searchBtn = document.getElementById('search-btn');
     
@@ -487,7 +457,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Разрешаем выделение текста везде
     document.addEventListener('selectstart', function(e) {
         return true;
     });
