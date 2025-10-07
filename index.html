@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Памятка MajesticRP [Phoenix]</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="stars-container"></div>
+    
+    <div class="container">
+        <div class="sidebar">
+            <div class="category-buttons">
+                <button class="category-btn active" data-category="yk">Уголовный кодекс</button>
+                <button class="category-btn" data-category="pc">Процессуальный кодекс</button>
+                <button class="category-btn" data-category="xz">Порядок задержания</button>
+                <button class="category-btn" data-category="advokat">Общение с адвокатом</button>
+                <button class="category-btn" data-category="macros">Макросы и инфо</button>
+                <button class="category-btn" data-category="information">Информация</button>
+            </div>
+            
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" id="search-input" placeholder="Введите текст для поиска..." class="search-input">
+                    <button id="search-btn" class="search-btn">Найти</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div class="articles-container-wrapper">
+                <div class="articles-container" id="articles-container">
+                    <!-- Статьи будут загружаться динамически -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

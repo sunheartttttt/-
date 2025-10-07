@@ -1,0 +1,568 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #0c0c2e 0%, #1a1a3e 100%);
+    color: white;
+    min-height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+#stars-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.star {
+    position: absolute;
+    background-color: white;
+    border-radius: 50%;
+    animation: fall linear infinite, twinkle ease-in-out infinite;
+}
+
+@keyframes fall {
+    from {
+        transform: translateY(-100px);
+    }
+    to {
+        transform: translateY(100vh);
+    }
+}
+
+@keyframes twinkle {
+    0%, 100% {
+        opacity: 0.3;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 30px;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    height: 100vh;
+    position: relative;
+    z-index: 1;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.category-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: -150px;
+}
+
+/* Стили для кнопок категорий */
+.category-btn {
+    background: rgba(255, 0, 0, 0.05);
+    backdrop-filter: blur(15px);
+    border: 2px solid rgba(255, 0, 0, 0.3);
+    color: #ff6666;
+    padding: 12px 20px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.category-btn:hover {
+    border-color: rgba(255, 0, 0, 0.6);
+    background: rgba(255, 0, 0, 0.08);
+    transform: scale(0.98);
+}
+
+.category-btn.active {
+    background: rgba(255, 0, 0, 0.15);
+    border-color: rgba(255, 0, 0, 0.8);
+    color: #ff0000;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+}
+
+.main-content {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0;
+}
+
+.articles-container-wrapper {
+    background: rgba(255, 0, 0, 0.03);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 0, 0, 0.2);
+    border-radius: 15px;
+    padding: 20px;
+    height: 70vh;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    width: 100%;
+}
+
+.articles-container-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+.articles-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.article-item {
+    display: grid;
+    grid-template-columns: 1fr 80px;
+    gap: 10px;
+    align-items: start;
+    position: relative;
+}
+
+.article-title-window {
+    background: rgba(255, 0, 0, 0.05);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 0, 0, 0.3);
+    border-radius: 12px;
+    padding: 12px;
+    cursor: pointer;
+    min-height: 45px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.article-title {
+    font-size: 14px;
+    font-weight: bold;
+    color: #ff6666;
+}
+
+.article-time-window {
+    background: rgba(255, 0, 0, 0.05);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 0, 0, 0.3);
+    border-radius: 12px;
+    padding: 12px;
+    min-height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+}
+
+.article-time {
+    font-size: 12px;
+    color: #ff9999;
+    font-weight: bold;
+    text-align: center;
+}
+
+.article-description-window {
+    grid-column: 1 / -1;
+    background: rgba(255, 191, 191, 0.08);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(87, 0, 0, 0.4);
+    border-radius: 10px;
+    padding: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.5s ease;
+    opacity: 0;
+    position: relative;
+    top: -5px;
+}
+
+.article-description {
+    padding: 6px;
+    color: #cccccc;
+    line-height: 1.5;
+    font-size: 14px;
+}
+
+.article-item.active .article-title-window {
+    background: rgba(255, 0, 0, 0.1);
+    border-color: rgba(255, 0, 0, 0.5);
+}
+
+.article-item.active .article-description-window {
+    max-height: 150px;
+    opacity: 1;
+    padding: 0;
+}
+
+/* Стили для поиска */
+.search-container {
+    margin-top: 100px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.search-box {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    width: 100%;
+    max-width: 300px;
+}
+
+.search-input {
+    background: rgba(255, 0, 0, 0.05);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 0, 0, 0.3);
+    border-radius: 12px;
+    padding: 12px 15px;
+    color: white;
+    font-size: 14px;
+    width: 100%;
+    outline: none;
+    text-align: center;
+}
+
+.search-input::placeholder {
+    color: #ff9999;
+}
+
+.search-input:focus {
+    border-color: rgba(255, 0, 0, 0.5);
+    background: rgba(255, 0, 0, 0.08);
+}
+
+.search-btn {
+    background: rgba(255, 0, 0, 0.1);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 0, 0, 0.4);
+    border-radius: 12px;
+    padding: 12px 30px;
+    color: #ff6666;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 150px;
+}
+
+.search-btn:hover {
+    background: rgba(255, 0, 0, 0.15);
+    border-color: rgba(255, 0, 0, 0.6);
+    transform: translateY(-2px);
+}
+
+.no-results {
+    text-align: center;
+    padding: 40px 20px;
+    color: #ff9999;
+}
+
+.no-results-message {
+    font-size: 18px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.search-query {
+    font-size: 14px;
+    color: #ff6666;
+}
+
+mark {
+    background-color: rgba(255, 193, 193, 0.3);
+    color: #ffcccc;
+    padding: 2px 2px;
+    border-radius: 4px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        max-width: 95%;
+        height: auto;
+    }
+    
+    .sidebar {
+        height: auto;
+        justify-content: flex-start;
+    }
+    
+    .category-buttons {
+        flex-direction: row;
+        overflow-x: auto;
+        padding-bottom: 8px;
+        justify-content: flex-start;
+        margin-top: 0;
+    }
+    
+    .category-btn {
+        white-space: nowrap;
+        min-width: 120px;
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+    
+    .main-content {
+        height: auto;
+    }
+    
+    .articles-container-wrapper {
+        height: 60vh;
+    }
+    
+    .article-item {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+    
+    .article-time-window {
+        width: 100%;
+        min-height: 40px;
+    }
+    
+    .article-description-window {
+        grid-column: 1;
+        top: -3px;
+    }
+}
+
+.category-text {
+    background: rgba(255, 0, 0, 0.03);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 0, 0, 0.2);
+    color: #ff9999;
+    padding: 12px 20px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: bold;
+    text-align: center;
+    cursor: default;
+    opacity: 0.8;
+    white-space: nowrap;
+}
+
+/* Стили для текстового контента */
+.article-content-window {
+    background: rgba(255, 0, 0, 0.05);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 0, 0, 0.3);
+    border-radius: 12px;
+    padding: 12px;
+    cursor: pointer;
+    min-height: 45px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.article-content {
+    color: #cccccc;
+    line-height: 1.6;
+    font-size: 14px;
+    white-space: pre-line;
+}
+
+.article-item.text-content {
+    display: block;
+}
+
+.article-item.text-content .article-content-window {
+    margin-bottom: 0;
+}
+
+/* Стили для кастомного скроллбара */
+.articles-container-wrapper {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 0, 0, 0.3) rgba(255, 0, 0, 0.1);
+}
+
+.articles-container-wrapper::-webkit-scrollbar {
+    width: 6px;
+    display: block;
+}
+
+.articles-container-wrapper::-webkit-scrollbar-track {
+    background: rgba(255, 0, 0, 0.1);
+    border-radius: 3px;
+}
+
+.articles-container-wrapper::-webkit-scrollbar-thumb {
+    background: rgba(255, 0, 0, 0.3);
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
+
+.articles-container-wrapper::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 0, 0, 0.5);
+}
+
+/* Стили для поиска с текстом слева */
+.search-input {
+    background: rgba(255, 0, 0, 0.05);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 0, 0, 0.3);
+    border-radius: 12px;
+    padding: 12px 15px;
+    color: white;
+    font-size: 14px;
+    width: 100%;
+    outline: none;
+    text-align: left;
+}
+
+.search-input::placeholder {
+    color: #ff9999;
+    text-align: left;
+}
+
+.search-input:focus {
+    border-color: rgba(255, 0, 0, 0.5);
+    background: rgba(255, 0, 0, 0.08);
+}
+
+/* Разрешаем выделение в поле ввода */
+.search-input {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+/* Стили для кастомного скроллбара */
+.articles-container-wrapper {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 0, 0, 0.3) transparent;
+}
+
+.articles-container-wrapper::-webkit-scrollbar {
+    width: 4px;
+    display: block;
+}
+
+.articles-container-wrapper::-webkit-scrollbar-track {
+    background: transparent;
+    margin: 0;
+    padding: 0;
+}
+
+.articles-container-wrapper::-webkit-scrollbar-thumb {
+    background: rgba(255, 0, 0, 0.3);
+    border-radius: 2px;
+    transition: background 0.4s ease;
+}
+
+.articles-container-wrapper::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 0, 0, 0.5);
+}
+
+/* Полностью убираем скроллбар */
+.articles-container-wrapper {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.articles-container-wrapper::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+}
+
+/* Плавная анимация для кнопок категорий */
+.category-btn {
+    background: rgba(255, 0, 0, 0.05);
+    backdrop-filter: blur(15px);
+    border: 2px solid rgba(255, 0, 0, 0.3);
+    color: #ff6666;
+    padding: 12px 20px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.category-btn:hover {
+    border-color: rgba(255, 0, 0, 0.6);
+    background: rgba(255, 0, 0, 0.08);
+    transform: scale(0.98);
+}
+
+.category-btn.active {
+    background: rgba(255, 0, 0, 0.15);
+    border-color: rgba(255, 0, 0, 0.8);
+    color: #ff0000;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+}
+
+/* Стили для скрытия времени когда его нет в данных */
+.article-item.no-time {
+    grid-template-columns: 1fr;
+}
+
+.article-item.no-time .article-title-window {
+    width: 100%;
+}
+
+/* Стили для прокрутки длинных описаний */
+/* Стили для прокрутки длинных описаний (без скроллбара) */
+.article-description-window.scrollable {
+    max-height: 0;
+    overflow-y: hidden;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+.article-item.active .article-description-window.scrollable {
+    max-height: 200px;
+    overflow-y: auto;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+/* Скрываем скроллбар в WebKit браузерах (Chrome, Safari, Edge) */
+.article-description-window.scrollable::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+}
+
+.article-description-window.scrollable::-webkit-scrollbar-track {
+    display: none;
+}
+
+.article-description-window.scrollable::-webkit-scrollbar-thumb {
+    display: none;
+}
+
+.article-description-window.scrollable::-webkit-scrollbar-thumb:hover {
+    display: none;
+}
+
+/* Убираем кнопку переключения времени */
+.time-toggle-container {
+    display: none;
+}
