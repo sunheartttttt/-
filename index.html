@@ -11,6 +11,10 @@
     
     <div class="container">
         <div class="sidebar">
+            <div class="name-container">
+                    <button class="name-btn">Памятка Phoenix</button>
+                </div>
+            <div class="category-background"></div>
             <div class="category-buttons">
                 <button class="category-btn active" data-category="yk">Уголовный кодекс</button>
                 <button class="category-btn" data-category="pc">Процессуальный кодекс</button>
@@ -19,16 +23,16 @@
                 <button class="category-btn" data-category="macros">Макросы и инфо</button>
                 <button class="category-btn" data-category="information">Информация</button>
             </div>
-            
+        </div>
+        
+        <div class="main-content">
             <div class="search-container">
                 <div class="search-box">
                     <input type="text" id="search-input" placeholder="Введите текст для поиска..." class="search-input">
                     <button id="search-btn" class="search-btn">Найти</button>
                 </div>
             </div>
-        </div>
-        
-        <div class="main-content">
+            
             <div class="articles-container-wrapper">
                 <div class="articles-container" id="articles-container">
                     <!-- Статьи загружаются динамически через скрипт -->

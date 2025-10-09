@@ -320,7 +320,8 @@ function createArticleElement(article, searchQuery = '') {
     articleElement.className = 'article-item';
     articleElement.setAttribute('data-id', article.id);
     
-    if (!article.time) {
+    const hasTime = article.time && article.time.trim() !== '';
+    if (!hasTime) {
         articleElement.classList.add('no-time');
     }
     
@@ -338,7 +339,7 @@ function createArticleElement(article, searchQuery = '') {
             <div class="article-title-window">
                 <div class="article-title">${highlightedTitle}</div>
             </div>
-            ${article.time ? `
+            ${hasTime ? `
             <div class="article-time-window">
                 <div class="article-time">${article.time}</div>
             </div>

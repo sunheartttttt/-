@@ -65,25 +65,44 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     height: 100%;
+    position: relative;
+    padding-top: 20px;
+}
+
+.category-background {
+    background: rgba(255, 0, 0, 0.03);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 0, 0, 0.2);
+    border-radius: 15px;
+    height: 70vh;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    z-index: 1;
+    top: 150px;
 }
 
 .category-buttons {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    margin-top: -150px;
+    gap: 8px;
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding: 15px;
+    top: 130px;
 }
 
 .category-btn {
     background: rgba(255, 0, 0, 0.05);
     backdrop-filter: blur(15px);
-    border: 2px solid rgba(255, 0, 0, 0.3);
+    border: 1px solid rgba(255, 0, 0, 0.3);
     color: #ff6666;
-    padding: 12px 20px;
-    border-radius: 20px;
-    font-size: 13px;
+    padding: 10px 15px;
+    border-radius: 12px;
+    font-size: 12px;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -101,14 +120,17 @@ body {
     background: rgba(255, 0, 0, 0.15);
     border-color: rgba(255, 0, 0, 0.8);
     color: #ff0000;
-    box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
 }
 
 .main-content {
     display: flex;
-    align-items: center;
+    flex-direction: column;
     height: 100%;
     padding: 0;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
 }
 
 .articles-container-wrapper {
@@ -140,6 +162,10 @@ body {
     gap: 10px;
     align-items: start;
     position: relative;
+}
+
+.article-item.no-time {
+    grid-template-columns: 1fr;
 }
 
 .article-title-window {
@@ -181,6 +207,25 @@ body {
     text-align: center;
 }
 
+.article-content-window {
+    background: rgba(255, 0, 0, 0.05);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 0, 0, 0.3);
+    border-radius: 12px;
+    padding: 12px;
+    min-height: 45px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.article-content {
+    color: #cccccc;
+    line-height: 1.6;
+    font-size: 14px;
+    white-space: pre-line;
+}
+
 .article-description-window {
     grid-column: 1 / -1;
     background: rgba(255, 191, 191, 0.08);
@@ -196,6 +241,11 @@ body {
     top: -5px;
 }
 
+.article-description-window.scrollable {
+    max-height: 0;
+    overflow-y: hidden;
+}
+
 .article-description {
     padding: 6px;
     color: #cccccc;
@@ -209,25 +259,34 @@ body {
 }
 
 .article-item.active .article-description-window {
-    max-height: 150px;
+    max-height: 200px;
     opacity: 1;
     padding: 0;
 }
 
+.article-item.active .article-description-window.scrollable {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.article-description-window.scrollable::-webkit-scrollbar {
+    display: none;
+}
+
 .search-container {
-    margin-top: 100px;
     width: 100%;
     display: flex;
     justify-content: center;
+    margin-top: 0;
 }
 
 .search-box {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 10px;
     align-items: center;
     width: 100%;
-    max-width: 300px;
+    max-width: 100%;
 }
 
 .search-input {
@@ -241,6 +300,7 @@ body {
     width: 100%;
     outline: none;
     text-align: center;
+    flex: 1;
 }
 
 .search-input::placeholder {
@@ -257,12 +317,13 @@ body {
     backdrop-filter: blur(15px);
     border: 1px solid rgba(255, 0, 0, 0.4);
     border-radius: 12px;
-    padding: 12px 30px;
+    padding: 12px 20px;
     color: #ff6666;
     font-size: 14px;
     cursor: pointer;
     transition: all 0.3s ease;
-    width: 150px;
+    white-space: nowrap;
+    width: auto;
 }
 
 .search-btn:hover {
@@ -306,6 +367,15 @@ mark {
     .sidebar {
         height: auto;
         justify-content: flex-start;
+        padding-top: 0;
+    }
+    
+    .category-background {
+        position: relative;
+        top: auto;
+        left: auto;
+        height: auto;
+        margin-bottom: 15px;
     }
     
     .category-buttons {
@@ -314,6 +384,7 @@ mark {
         justify-content: center;
         margin-top: 0;
         gap: 8px;
+        position: relative;
     }
     
     .category-btn {
@@ -322,14 +393,213 @@ mark {
     }
     
     .search-container {
-        margin-top: 20px;
+        margin-top: 0;
+    }
+    
+    .search-box {
+        flex-direction: column;
     }
     
     .main-content {
-        height: 60vh;
+        height: auto;
+        gap: 10px;
     }
     
     .articles-container-wrapper {
-        height: 100%;
+        height: 60vh;
+    }
+    
+    .article-item {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+    
+    .article-time-window {
+        width: 100%;
+        min-height: 40px;
+    }
+    
+    .article-description-window {
+        grid-column: 1;
+        top: -3px;
+    }
+}
+
+/* Таблица как на скриншоте */
+.table-container {
+    background: rgba(255, 0, 0, 0.03);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 0, 0, 0.2);
+    border-radius: 15px;
+    padding: 20px;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.table-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #ff6666;
+    text-align: center;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.articles-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    font-size: 13px;
+}
+
+.articles-table th {
+    background: rgba(255, 0, 0, 0.15);
+    color: #ff6666;
+    padding: 12px 8px;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    border: 1px solid rgba(255, 0, 0, 0.4);
+    text-transform: uppercase;
+}
+
+.articles-table td {
+    background: rgba(255, 0, 0, 0.05);
+    color: #cccccc;
+    padding: 10px 8px;
+    font-size: 12px;
+    text-align: left;
+    border: 1px solid rgba(255, 0, 0, 0.2);
+    height: 40px;
+    vertical-align: middle;
+}
+
+.articles-table td:first-child {
+    font-weight: bold;
+    color: #ff9999;
+    text-align: left;
+    width: 25%;
+}
+
+.articles-table td:nth-child(2) {
+    text-align: left;
+    width: 55%;
+    color: #ffffff;
+}
+
+.articles-table td:nth-child(3) {
+    text-align: center;
+    width: 20%;
+    font-weight: bold;
+    color: #ff9999;
+}
+
+.articles-table tr:hover td {
+    background: rgba(255, 0, 0, 0.08);
+}
+
+.table-footer {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.separator {
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(255, 0, 0, 0.4), transparent);
+    margin: 15px 0;
+}
+
+.footer-text {
+    color: #ff9999;
+    font-size: 12px;
+    font-style: italic;
+    font-weight: bold;
+}
+
+/* Обновленные стили для name-container */
+.name-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 3;
+    top: 75px;
+}
+
+.name-btn {
+    background: rgba(255, 0, 0, 0.05);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 0, 0, 0.3);
+    border-radius: 12px;
+    padding: 12px 30px;
+    color: #ff6666;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    text-align: center;
+    width: 100%;
+}
+
+.name-btn:hover {
+    background: rgba(255, 0, 0, 0.08);
+    border-color: rgba(255, 0, 0, 0.5);
+    transform: scale(0.98);
+    color: #ff0000;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+}
+
+/* Обновленные позиции для категорий */
+.category-background {
+    background: rgba(255, 0, 0, 0.03);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 0, 0, 0.2);
+    border-radius: 15px;
+    height: 70vh;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    z-index: 1;
+    top: 150px; /* Поднял выше для name */
+}
+
+.category-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding: 15px;
+    top: 70px; /* Поднял выше для name */
+}
+
+/* Адаптивность для таблицы */
+@media (max-width: 768px) {
+    .table-container {
+        padding: 15px;
+        margin-top: 15px;
+    }
+    
+    .articles-table {
+        font-size: 11px;
+    }
+    
+    .articles-table th,
+    .articles-table td {
+        padding: 8px 4px;
+        font-size: 10px;
+    }
+    
+    .table-title {
+        font-size: 16px;
+    }
+    
+    .name-btn {
+        padding: 10px 20px;
+        font-size: 13px;
     }
 }
